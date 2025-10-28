@@ -4,7 +4,7 @@ using SeaCreatureApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- 1. НАЛАШТУВАННЯ CORS (без змін) ---
+// --- 1. НАЛАШТУВАННЯ CORS ---
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
@@ -17,23 +17,20 @@ builder.Services.AddCors(options =>
 });
 
 // --- 2. "РОЗУМНЕ" ПІДКЛЮЧЕННЯ ДО БАЗИ ДАНИХ ---
-// Перевіряємо, чи ми на Railway (чи є змінна DATABASE_URL)
 var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
 if (!string.IsNullOrEmpty(databaseUrl))
 {
-    // Так, ми на Railway -> Використовуємо PostgreSQL
+    // Railway -> PostgreSQL
     builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(databaseUrl));
 }
-
 else
 {
-    // Ні, ми локально -> Використовуємо SQLite з appsettings.json
+    // Локально -> SQLite
     builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 }
-// --- КІНЕЦЬ ЗМІНИ ---
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -42,15 +39,12 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // --- 3. АВТОМАТИЧНА МІГРАЦІЯ ТА СІДІНГ ---
-// Цей код тепер безпечний і для SQLite, і для PostgreSQL
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-    // Застосовуємо міграції
     context.Database.Migrate();
 
-    // Додаємо тестові дані (Seeding), якщо база порожня
     if (!context.SeaCreatures.Any())
     {
         context.SeaCreatures.AddRange(
@@ -61,7 +55,6 @@ using (var scope = app.Services.CreateScope())
         context.SaveChanges();
     }
 }
-// --- КІНЕЦЬ ЗМІНИ ---
 
 if (app.Environment.IsDevelopment())
 {
@@ -73,4 +66,9 @@ app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
 app.UseAuthorization();
 app.MapControllers();
+
+// --- 4. ВАЖЛИВО: Railway PORT ---
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+app.Urls.Add($"http://*:{port}");
+
 app.Run();
