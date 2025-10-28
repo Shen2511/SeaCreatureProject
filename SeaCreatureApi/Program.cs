@@ -4,7 +4,7 @@ using SeaCreatureApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- 1. НАЛАШТУВАННЯ CORS ---
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
@@ -16,18 +16,17 @@ builder.Services.AddCors(options =>
         });
 });
 
-// --- 2. "РОЗУМНЕ" ПІДКЛЮЧЕННЯ ДО БАЗИ ДАНИХ ---
+
 var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
 if (!string.IsNullOrEmpty(databaseUrl))
 {
-    // Railway -> PostgreSQL
+   
     builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(databaseUrl));
 }
 else
 {
-    // Локально -> SQLite
     builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 }
@@ -38,7 +37,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// --- 3. АВТОМАТИЧНА МІГРАЦІЯ ТА СІДІНГ ---
+
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
