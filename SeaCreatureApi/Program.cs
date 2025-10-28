@@ -26,6 +26,7 @@ if (!string.IsNullOrEmpty(databaseUrl))
     builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(databaseUrl));
 }
+
 else
 {
     // Ні, ми локально -> Використовуємо SQLite з appsettings.json
