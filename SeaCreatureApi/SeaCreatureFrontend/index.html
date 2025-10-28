@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sea Creature Tracker</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Sea Creature Tracker</h1> <div class="container">
+        <form id="add-creature-form">
+            <h2>Add a New Creature</h2> <input type="text" id="creature-name" placeholder="Creature Name" required> <input type="number" id="creature-lifespan" placeholder="Lifespan (years)" min="1" required> <select id="creature-diet" required>
+                <option value="" disabled selected>-- Select Diet Type --</option>
+                <option value="Carnivore">Carnivore (Meat)</option>
+                <option value="Herbivore">Herbivore (Plants)</option>
+                <option value="Omnivore">Omnivore</option>
+            </select>
+
+            <input type="text" id="creature-habitat" placeholder="Habitat (Ocean)" required> <button type="submit">Add Creature</button>
+        </form>
+
+        <div class="list-container">
+            <h2>Creature List</h2> <table class="creatures-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Lifespan</th>
+                        <th>Diet</th>
+                        <th>Habitat</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="creatures-table-body">
+                    <tr>
+                        <td colspan="5">Loading...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

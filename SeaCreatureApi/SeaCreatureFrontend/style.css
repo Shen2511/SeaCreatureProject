@@ -1,0 +1,280 @@
+﻿:root {
+    --font-family: 'Nunito', sans-serif;
+    --bg-color: #f4f8fa; 
+    --primary-blue: #3a86ff; 
+    --secondary-blue: #00a6fb;
+    --dark-blue: #0a2463;
+    --text-color: #333;
+    --card-bg: #ffffff;
+    --shadow-color: rgba(0, 92, 151, 0.15); 
+    --border-color: #e0f2fe;
+    --delete-red: #ff595e;
+    --delete-red-hover: #c41e24;
+}
+
+body {
+    font-family: var(--font-family);
+    background-image: linear-gradient(120deg, #e0f2fe 0%, #f4f8fa 100%); 
+    color: var(--text-color);
+    margin: 0;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+
+h1 {
+    text-align: center;
+    color: var(--dark-blue);
+    margin-bottom: 30px;
+    font-size: 2.8em; 
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.7);
+}
+
+    h1::before {
+        content: '🐙'; 
+        font-size: 0.9em;
+    }
+
+    h1::after {
+        content: '🐠'; 
+        font-size: 0.9em;
+    }
+
+h2 {
+    text-align: left;
+    color: var(--dark-blue);
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 1.6em;
+    font-weight: 700;
+    border-bottom: 2px solid var(--primary-blue);
+    padding-bottom: 5px;
+}
+
+.container {
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px; 
+    justify-content: center;
+}
+
+
+#add-creature-form {
+    flex: 1;
+    min-width: 320px;
+    max-width: 450px;
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 16px; 
+    box-shadow: 0 10px 30px var(--shadow-color);
+    height: fit-content;
+    border: 1px solid var(--border-color);
+}
+
+    #add-creature-form input,
+    #add-creature-form select {
+        width: calc(100% - 24px); 
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #d1d9e0;
+        border-radius: 8px;
+        font-size: 16px;
+        font-family: var(--font-family);
+        color: var(--text-color);
+        background-color: var(--bg-color);
+        transition: all 0.2s ease;
+    }
+
+        #add-creature-form input:focus,
+        #add-creature-form select:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(58, 134, 255, 0.2); 
+        }
+
+   
+    #add-creature-form select {
+        appearance: none;
+        background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%233a86ff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+        background-repeat: no-repeat;
+        background-position: right 12px top 50%;
+        background-size: 12px auto;
+        padding-right: 40px; 
+    }
+
+
+    #add-creature-form button {
+        width: 100%;
+        padding: 14px;
+        background-color: var(--primary-blue);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 700;
+        font-family: var(--font-family);
+        transition: all 0.2s ease;
+    }
+
+        #add-creature-form button:hover {
+            background-color: var(--secondary-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(58, 134, 255, 0.3);
+        }
+
+
+.list-container {
+    flex: 2;
+    min-width: 500px;
+    max-width: 800px;
+}
+
+.creatures-table {
+    width: 100%;
+    
+    border-collapse: collapse; 
+   
+
+    background: var(--card-bg);
+    border-radius: 16px; 
+    box-shadow: 0 10px 30px var(--shadow-color);
+    border: 1px solid rgba(58, 134, 255, 0.3); 
+    overflow: hidden; 
+}
+
+    .creatures-table th,
+    .creatures-table td {
+        padding: 15px 20px;
+        text-align: left;
+        
+        border-bottom: 1px solid #e0f2fe; 
+    }
+
+   
+    .creatures-table th {
+        background-color: var(--primary-blue);
+        color: white;
+        font-size: 1.1em;
+        font-weight: 700;
+    }
+
+    
+    .creatures-table tbody tr:nth-child(even) {
+        background-color: rgba(58, 134, 255, 0.05); 
+    }
+
+    
+    .creatures-table tbody tr:hover {
+        background-color: rgba(58, 134, 255, 0.15); 
+        transform: scale(1.02); 
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    
+
+
+  
+    .creatures-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    
+    .creatures-table td:last-child {
+        text-align: center;
+        width: 80px;
+    }
+
+
+.creature-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 25px 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+    .creature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 35px rgba(0, 92, 151, 0.2);
+    }
+
+    .creature-card h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: var(--dark-blue);
+        font-size: 1.7em;
+        font-weight: 700;
+    }
+
+    .creature-card p {
+        margin: 8px 0;
+        font-size: 1.1em;
+        color: #555;
+        line-height: 1.5;
+    }
+
+        .creature-card p strong {
+            color: var(--dark-blue);
+            font-weight: 700;
+        }
+
+
+.delete-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #fde8e9; 
+    color: var(--delete-red);
+    border: 1px solid #fbcacb;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 32px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+    .delete-btn:hover {
+        background: var(--delete-red);
+        color: white;
+        border-color: var(--delete-red);
+        transform: scale(1.1) rotate(90deg); 
+    }
+
+
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2.2em;
+    }
+
+    .container {
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+    }
+
+    #add-creature-form, .list-container {
+        max-width: 100%;
+        width: 100%;
+    }
+}
