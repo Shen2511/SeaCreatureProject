@@ -3,9 +3,13 @@ using SeaCreatureApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-builder.WebHost.UseUrls($"http://*:{port}");
-// Підключення до PostgreSQL
+// 👇 Жорстке прив’язування Kestrel до порту з Railway
+builder.WebHost.ConfigureKestrel(options =>
+{
+    var port = int.Parse(Environment.GetEnvironmentVariable("PORT") ?? "5000");
+    options.ListenAnyIP(port);
+});
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -19,10 +23,10 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
+// 👇 Тимчасово можна вимкнути редірект на HTTPS, щоб уникнути помилок у контейнері
+// app.UseHttpsRedirection();
+
 app.UseAuthorization();
 app.MapControllers();
-
-
 
 app.Run();
