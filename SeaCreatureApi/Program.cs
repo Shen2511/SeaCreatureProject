@@ -3,6 +3,16 @@ using SeaCreatureApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowNetlify",
+        policy =>
+        {
+            policy.WithOrigins("https://seacreaturess.netlify.app") // твій фронтенд-домен
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 // 👇 Жорстке прив’язування Kestrel до порту з Railway
 builder.WebHost.ConfigureKestrel(options =>
 {
@@ -18,7 +28,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
+app.UseCors("AllowNetlify");
 // Swagger завжди доступний
 app.UseSwagger();
 app.UseSwaggerUI();
