@@ -26,7 +26,7 @@ async function loadCreatures() {
             tr.appendChild(tdName);
 
             const tdLifespan = document.createElement('td');
-            tdLifespan.textContent = ${ creature.lifespan } years;
+            tdLifespan.textContent = `${creature.lifespan} years`;
             tr.appendChild(tdLifespan);
 
             const tdDiet = document.createElement('td');
@@ -88,23 +88,23 @@ creaturesTableBody.addEventListener('click', async (e) => {
     if (e.target.classList.contains('delete-btn')) {
         const creatureId = e.target.dataset.id;
 
-        if (!confirm(Are you sure you want to delete creature with ID: ${ creatureId }?)) {
-    return;
-}
+        if (!confirm(`Are you sure you want to delete creature with ID: ${creatureId}?`)) {
+            return;
+        }
 
-try {
-    const response = await fetch(${ API_URL } / ${ creatureId }, {
-        method: 'DELETE'
-    });
+        try {
+            const response = await fetch(`${API_URL}/${creatureId}`, {
+                method: 'DELETE'
+            });
 
-    if (!response.ok) throw new Error('Error deleting creature');
+            if (!response.ok) throw new Error('Error deleting creature');
 
-    loadCreatures();
+            loadCreatures();
 
-} catch (error) {
-    console.error('Error deleting creature:', error);
-    alert('Failed to delete creature.');
-}
+        } catch (error) {
+            console.error('Error deleting creature:', error);
+            alert('Failed to delete creature.');
+        }
     }
 });
 
