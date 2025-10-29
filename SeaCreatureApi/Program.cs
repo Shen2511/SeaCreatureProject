@@ -42,11 +42,11 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-    //context.Database.Migrate();
+    //context.Database.Migrate(); 
     
 
 
-    if (!context.SeaCreatures.Any())
+    /*if (!context.SeaCreatures.Any())
     {
         context.SeaCreatures.AddRange(
             new SeaCreature { Name = "Great White Shark", Lifespan = 30, DietType = "Carnivore", Habitat = "Atlantic Ocean" },
@@ -54,7 +54,7 @@ using (var scope = app.Services.CreateScope())
             new SeaCreature { Name = "Clownfish", Lifespan = 6, DietType = "Omnivore", Habitat = "Indian Ocean" }
         );
         context.SaveChanges();
-    }
+    }*/
 }
 
 if (app.Environment.IsDevelopment())
