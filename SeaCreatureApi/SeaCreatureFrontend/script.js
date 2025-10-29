@@ -1,18 +1,17 @@
-﻿// --- IMPORTANT! ---
-// Change port 7123 to your actual backend port if needed
-const API_URL = process.env.API_URL || 'https://seacreatureproject-fuka.up.railway.app/api/SeaCreatures';
+﻿// --- ФІНАЛЬНЕ ПОСИЛАННЯ НА API (Вписано напряму) ---
+const API_URL = 'https://seacreatureproject-fuka.up.railway.app/api/SeaCreatures';
 
 const creaturesTableBody = document.getElementById('creatures-table-body');
 const addCreatureForm = document.getElementById('add-creature-form');
 
-// --- 1. Function: Load and display all sea creatures ---
+// --- 1. Функція: Завантажити і показати всіх мешканців ---
 async function loadCreatures() {
     try {
         const response = await fetch(API_URL);
         if (!response.ok) throw new Error('Network error');
         const creatures = await response.json();
 
-        creaturesTableBody.innerHTML = ''; // Clear "Loading..."
+        creaturesTableBody.innerHTML = ''; // Очищуємо "Loading..."
 
         if (creatures.length === 0) {
             creaturesTableBody.innerHTML = '<tr><td colspan="5">No creatures found in the database. Add the first one!</td></tr>';
@@ -22,25 +21,40 @@ async function loadCreatures() {
         creatures.forEach(creature => {
             const tr = document.createElement('tr');
 
-            tr.innerHTML = `
-                <td>${creature.name}</td>
-                <td>${creature.lifespan} years</td>
-                <td>${creature.dietType}</td>
-                <td>${creature.habitat}</td>
-                <td>
-                    <button class="delete-btn" data-id="${creature.id}">X</button>
-                </td>
-            `;
+            const tdName = document.createElement('td');
+            tdName.textContent = creature.name;
+            tr.appendChild(tdName);
+
+            const tdLifespan = document.createElement('td');
+            tdLifespan.textContent = ${ creature.lifespan } years;
+            tr.appendChild(tdLifespan);
+
+            const tdDiet = document.createElement('td');
+            tdDiet.textContent = creature.dietType;
+            tr.appendChild(tdDiet);
+
+            const tdHabitat = document.createElement('td');
+            tdHabitat.textContent = creature.habitat;
+            tr.appendChild(tdHabitat);
+
+            const tdActions = document.createElement('td');
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.dataset.id = creature.id;
+            deleteBtn.textContent = 'X';
+            tdActions.appendChild(deleteBtn);
+            tr.appendChild(tdActions);
+
             creaturesTableBody.appendChild(tr);
         });
 
     } catch (error) {
         console.error('Error loading creatures:', error);
-        creaturesTableBody.innerHTML = '<tr><td colspan="5" style="color: red;">Error loading data. Make sure the backend is running.</td></tr>';
+        creaturesTableBody.innerHTML = '<tr><td colspan="5" style="color: red;">Error loading data. Make sure the Backend is running.</td></tr>';
     }
 }
 
-// --- 2. Function: Add a new sea creature ---
+// --- 2. Функція: Додати нового мешканця ---
 addCreatureForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -69,30 +83,30 @@ addCreatureForm.addEventListener('submit', async (e) => {
     }
 });
 
-// --- 3. Function: Delete a sea creature ---
+// --- 3. Функція: Видалити мешканця ---
 creaturesTableBody.addEventListener('click', async (e) => {
     if (e.target.classList.contains('delete-btn')) {
         const creatureId = e.target.dataset.id;
 
-        if (!confirm(`Are you sure you want to delete creature with ID: ${creatureId}?`)) {
-            return;
-        }
+        if (!confirm(Are you sure you want to delete creature with ID: ${ creatureId }?)) {
+    return;
+}
 
-        try {
-            const response = await fetch(`${API_URL}/${creatureId}`, {
-                method: 'DELETE'
-            });
+try {
+    const response = await fetch(${ API_URL } / ${ creatureId }, {
+        method: 'DELETE'
+    });
 
-            if (!response.ok) throw new Error('Error deleting creature');
+    if (!response.ok) throw new Error('Error deleting creature');
 
-            loadCreatures();
+    loadCreatures();
 
-        } catch (error) {
-            console.error('Error deleting creature:', error);
-            alert('Failed to delete creature.');
-        }
+} catch (error) {
+    console.error('Error deleting creature:', error);
+    alert('Failed to delete creature.');
+}
     }
 });
 
-// --- Initial load when page opens ---
+// --- Запускаємо завантаження при першому відкритті сторінки ---
 document.addEventListener('DOMContentLoaded', loadCreatures);
