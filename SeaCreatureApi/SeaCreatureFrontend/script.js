@@ -1,6 +1,6 @@
 ﻿// --- IMPORTANT! ---
 // Change port 7123 to your actual backend port if needed
-const API_URL = 'https://localhost:7003/api/SeaCreatures';
+const API_URL = process.env.API_URL || 'https://seacreatureproject-fuka.up.railway.app/api/SeaCreatures';
 
 const creaturesTableBody = document.getElementById('creatures-table-body');
 const addCreatureForm = document.getElementById('add-creature-form');
